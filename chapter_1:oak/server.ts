@@ -9,7 +9,7 @@ import logger from './middlewares/logger.ts';
 import notFound from './middlewares/notFound.ts';
 
 const app = new Application();
-const port: number = 8080;
+const port = 8080;
 
 // order of execution is important;
 app.use(logger.logger);

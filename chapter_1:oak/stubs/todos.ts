@@ -1,7 +1,7 @@
-import { nanoid } from "https://deno.land/x/nanoid/mod.ts"
+import { nanoid } from "https://deno.land/x/nanoid@v3.0.0/mod.ts"
 
 // interface
-import Todo from '../interfaces/Todo.ts';
+import { Todo } from '../interfaces/Todo.ts';
 
 const todos: Todo[] = [
   {

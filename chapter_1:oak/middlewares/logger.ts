@@ -1,3 +1,4 @@
+// deno-lint-ignore-file ban-types
 import {
   green,
   cyan,
@@ -5,11 +6,13 @@ import {
   bgRed,
 } from "https://deno.land/std@0.53.0/fmt/colors.ts";
 
-const X_RESPONSE_TIME: string = "X-Response-Time";
+import { Request, Response } from "https://deno.land/x/oak@v11.1.0/mod.ts";
+
+const X_RESPONSE_TIME = "X-Response-Time";
 
 export default {
   logger: async (
-    { response, request }: { response: any, request: any },
+    { response, request }: { response: Response, request: Request },
     next: Function,
   ) => {
     await next();
@@ -18,7 +21,7 @@ export default {
     console.log(`${bgRed(white(String(responseTime)))}`);
   },
   responseTime: async (
-    { response }: { response: any },
+    { response }: { response: Response },
     next: Function,
   ) => {
     const start = Date.now();

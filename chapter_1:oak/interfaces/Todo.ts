@@ -1,10 +1,5 @@
 export interface Todo {
   id: string,
-  todo: string,
-  isCompleted: boolean,
-}
-
-export interface RawTodo {
-  todo: string,
+  task: string,
   isCompleted: boolean,
 }

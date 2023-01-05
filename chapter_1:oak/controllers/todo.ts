@@ -1,9 +1,8 @@
-// deno-lint-ignore-file prefer-const
 import { Request, Response } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 // interfaces
-import { Todo, RawTodo } from "../interfaces/Todo.ts";
+import { Todo } from "../interfaces/Todo.ts";
 // stubs
-import { todos, addTodo } from "../stubs/todos.ts";
+import { todos, addTodo, updateTodo, deleteTodo } from "../stubs/todos.ts";
 
 export default {
   /**
@@ -12,10 +11,7 @@ export default {
    */
   getAllTodos: ({ response }: { response: Response }) => {
     response.status = 200;
-    response.body = {
-      success: true,
-      data: todos,
-    };
+    response.body = todos;
   },
 
   /**
@@ -35,13 +31,8 @@ export default {
     }
 
     const body = request.body();
-    const rawTodo: RawTodo = await body?.value;
-    addTodo(rawTodo.todo, rawTodo.isCompleted);
-
-    response.body = {
-      success: true,
-      todos,
-    };
+    const todo: Todo = await body?.value;
+    response.body = addTodo(todo.task, todo.isCompleted);
   },
 
   /**
@@ -76,29 +67,20 @@ export default {
       response: Response,
     },
   ) => {
-    const todo: Todo | undefined = todos.find((t) => t.id === params.id);
+    const body = request.body();
+    const newTodo: Todo = await body?.value;
+
+    const todo: Todo | undefined = updateTodo(params.id, newTodo.task, newTodo.isCompleted);
     if (!todo) {
       response.status = 404;
       response.body = {
         success: false,
         message: "No todo found",
       };
-      return;
+    } else {
+      //response.status = 200;
+      response.body = todos;
     }
-
-    // if todo found then update todo
-    const body = request.body();
-    const newTodo: RawTodo = await body?.value;
-
-    let newTodos = todos.map((t) => {
-      return t.id === params.id ? { ...t, ...newTodo } : t;
-    });
-
-    //response.status = 200;
-    response.body = {
-      success: true,
-      data: newTodos,
-    };
   },
 
   /**
@@ -108,14 +90,16 @@ export default {
   deleteTodoById: (
     { params, response }: { params: { id: string }; response: Response },
   ) => {
-    const allTodos = todos.filter((t: Todo): boolean => t.id !== params.id);
-
-    // remove the todo w.r.t id & return
-    // remaining todos
-    response.status = 200;
-    response.body = {
-      success: true,
-      data: allTodos,
-    };
+    const deleted: boolean = deleteTodo(params.id);
+    if (!deleted) {
+      response.status = 404;
+      response.body = {
+        success: false,
+        message: "No todo found",
+      };
+    } else {
+      //response.status = 200;
+      response.body = todos;
+    }
   },
 };

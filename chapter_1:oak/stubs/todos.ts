@@ -1,39 +1,66 @@
-import { nanoid } from "https://deno.land/x/nanoid@v3.0.0/mod.ts"
+import { customAlphabet } from "https://deno.land/x/nanoid@v3.0.0/mod.ts"
+import { nolookalikesSafe } from "npm:nanoid-dictionary";
+const nanoid = customAlphabet(nolookalikesSafe, 16);
 
 // interface
 import { Todo } from '../interfaces/Todo.ts';
 
-const todos: Todo[] = [
+let todos: Todo[] = [
   {
     id: nanoid(),
-    todo: 'walk dog',
+    task: 'walk dog',
     isCompleted: true,
   },
   {
     id: nanoid(),
-    todo: 'eat food',
+    task: 'eat food',
     isCompleted: false,
   },
   {
     id: nanoid(),
-    todo: 'exercise',
+    task: 'exercise',
     isCompleted: true,
   },
   {
     id: nanoid(),
-    todo: 'read a book',
+    task: 'read a book',
     isCompleted: false,
   }
 ]
 
-const addTodo = (todo: string, isCompleted: boolean): Todo => {
+const addTodo = (task: string, isCompleted: boolean): Todo => {
   const newTodo: Todo = {
     id: nanoid(),
-    todo: todo,
+    task: task,
     isCompleted: isCompleted,
   }
   todos.push(newTodo);
   return newTodo;
 }
 
-export { todos, addTodo };
+const updateTodo = (id: string, task: string, isCompleted: boolean): Todo | undefined => {
+  let todo: Todo | undefined;
+  todos = todos.map((t) => {
+    if (t.id === id) {
+      todo = { ...t, ...{ task: task, isCompleted: isCompleted } };
+      return todo;
+    }
+    return t;
+  });
+
+  return todo;
+}
+
+const deleteTodo = (id: string): boolean => {
+  let deleted = false;
+  todos = todos.filter((t) => {
+    if (t.id === id) {
+      deleted = true;
+      return false;
+    }
+    else return true;
+  });
+  return deleted;
+}
+
+export { todos, addTodo, updateTodo, deleteTodo };

@@ -1,30 +1,39 @@
-import { v5 } from "https://deno.land/std/uuid/mod.ts";
+import { nanoid } from "https://deno.land/x/nanoid/mod.ts"
+
 // interface
 import Todo from '../interfaces/Todo.ts';
 
-const NAMESPACE_URL = "6ba7b810-9dad-11d1-80b4-00c04fd430c8";
-
-let todos: Todo[] = [
+const todos: Todo[] = [
   {
-    id: await v5.generate(NAMESPACE_URL, new TextEncoder().encode("python.org")),
+    id: nanoid(),
     todo: 'walk dog',
     isCompleted: true,
   },
   {
-    id: await v5.generate(NAMESPACE_URL, new TextEncoder().encode("python.org")),
+    id: nanoid(),
     todo: 'eat food',
     isCompleted: false,
   },
   {
-    id: await v5.generate(NAMESPACE_URL, new TextEncoder().encode("python.org")),
+    id: nanoid(),
     todo: 'exercise',
     isCompleted: true,
   },
   {
-    id: await v5.generate(NAMESPACE_URL, new TextEncoder().encode("python.org")),
+    id: nanoid(),
     todo: 'read a book',
     isCompleted: false,
   }
-];
+]
 
-export {todos, NAMESPACE_URL};
+const addTodo = (todo: string, isCompleted: boolean): Todo => {
+  const newTodo: Todo = {
+    id: nanoid(),
+    todo: todo,
+    isCompleted: isCompleted,
+  }
+  todos.push(newTodo);
+  return newTodo;
+}
+
+export { todos, addTodo };

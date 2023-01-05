@@ -2,12 +2,10 @@ import { Router } from "https://deno.land/x/oak/mod.ts";
 import todoController from "../controllers/todo.ts";
 
 const router = new Router();
-// controller
-
 
 router.get("/", (ctx) => {
-  //ctx.response.redirect("/todos")
-  ctx.response.body = "Welcome stranger"
+  ctx.response.redirect("/todos");
+  //ctx.response.body = "Welcome stranger"
 });
 
 router

@@ -1,9 +1,8 @@
 // deno-lint-ignore-file prefer-const
-import { v5 } from "https://deno.land/std/uuid/mod.ts";
 // interfaces
 import Todo from "../interfaces/Todo.ts";
 // stubs
-import { todos, NAMESPACE_URL } from "../stubs/todos.ts";
+import { todos, addTodo } from "../stubs/todos.ts";
 
 export default {
   /**
@@ -34,18 +33,11 @@ export default {
       return;
     }
 
-    // if everything is fine then perform
-    // operation and return todos with the
-    // new data added.
-    let newTodo: Todo = {
-      id: await v5.generate(NAMESPACE_URL, new TextEncoder().encode("python.org")),
-      todo: body.value.todo,
-      isCompleted: false,
-    };
-    let data = [...todos, newTodo];
+    addTodo(body.value.todo, false);
+
     response.body = {
       success: true,
-      data,
+      todos,
     };
   },
   /**

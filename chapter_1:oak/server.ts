@@ -1,5 +1,9 @@
 import { Application } from "https://deno.land/x/oak@v11.1.0/mod.ts";
+import { AppState } from "./interfaces/AppState.ts";
 import { green, yellow } from "https://deno.land/std@0.171.0/fmt/colors.ts";
+
+// state
+import user from "./middlewares/user.ts"
 
 // routes
 import todoRouter from "./routes/todo.ts";
@@ -8,8 +12,10 @@ import logger from './middlewares/logger.ts';
 // not found
 import notFound from './middlewares/notFound.ts';
 
-const app = new Application();
+const app = new Application<AppState>();
 const port = 8080;
+
+app.use(user.userid);
 
 // order of execution is important;
 app.use(logger.logger);

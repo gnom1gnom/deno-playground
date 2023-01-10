@@ -5,7 +5,7 @@ import { green, yellow } from "https://deno.land/std@0.171.0/fmt/colors.ts";
 import {
   FlashServer,
   hasFlash,
-} from "https://deno.land/x/oak/mod.ts";
+} from "https://deno.land/x/oak@v11.1.0/mod.ts";
 
 const appOptions = hasFlash() ? { serverConstructor: FlashServer } : undefined;
 

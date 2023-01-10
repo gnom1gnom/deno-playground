@@ -2,6 +2,13 @@ import { Application } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 import { AppState } from "./interfaces/AppState.ts";
 import { green, yellow } from "https://deno.land/std@0.171.0/fmt/colors.ts";
 
+import {
+  FlashServer,
+  hasFlash,
+} from "https://deno.land/x/oak/mod.ts";
+
+const appOptions = hasFlash() ? { serverConstructor: FlashServer } : undefined;
+
 // state
 import user from "./middlewares/user.ts"
 
@@ -12,7 +19,7 @@ import logger from './middlewares/logger.ts';
 // not found
 import notFound from './middlewares/notFound.ts';
 
-const app = new Application<AppState>();
+const app = new Application<AppState>(appOptions);
 const port = 8080;
 
 app.use(user.userid);

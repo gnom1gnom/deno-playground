@@ -6,6 +6,7 @@ export default {
   userid: async (ctx: Context, next: Function) => {
     // do whatever checks to determine the user ID
     ctx.state.userId = nanoid();
+    await ctx.cookies.set("lastVisit", new Date().toISOString(), { signed: true });
     await next();
     delete ctx.state.userId; // cleanup
   }

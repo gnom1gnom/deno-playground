@@ -19,6 +19,8 @@ import user from "./middlewares/user.ts"
 // routes
 import todoRouter from "./routes/todo.ts";
 import nestedRouter from "./routes/nested.ts";
+import sockets from "./routes/sockets.ts"
+
 // logger
 import logger from './middlewares/logger.ts';
 // not found
@@ -35,8 +37,13 @@ app.use(logger.responseTime);
 
 app.use(nestedRouter.routes());
 app.use(nestedRouter.allowedMethods());
+
 app.use(todoRouter.routes());
 app.use(todoRouter.allowedMethods());
+
+app.use(sockets.routes());
+app.use(sockets.allowedMethods());
+
 
 // 404 page
 app.use(notFound);

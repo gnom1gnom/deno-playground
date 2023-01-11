@@ -1,10 +1,11 @@
-import { Response } from "https://deno.land/x/oak@v11.1.0/mod.ts";
+import { Context } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 
-export default ({ response }: { response: Response }) => {
-  // response.status = 404;
-  // response.body = {
-  //   success: false,
-  //   message: "404 - Not found.",
-  // };
-  response.redirect("/todos");
+export default (ctx: Context) => {
+  console.log(`Not found ${ctx.request.url.href}`);
+  ctx.response.status = 404;
+  ctx.response.body = {
+    success: false,
+    message: "404 - Not found.",
+  };
+  // response.redirect("/todos");
 };

@@ -1,6 +1,6 @@
 // deno-lint-ignore-file ban-types
-import { Context, isHttpError, Status } from "https://deno.land/x/oak@v11.1.0/mod.ts";
-import { nanoid } from "https://deno.land/x/nanoid@v3.0.0/mod.ts"
+import { nanoid } from "https://deno.land/x/nanoid@v3.0.0/mod.ts";
+import { Context } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 
 export default {
   userid: async (ctx: Context, next: Function) => {
